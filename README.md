@@ -26,7 +26,6 @@ Probably you want to disable __line number__ but keep __gutter__ because it show
 Though you can disable gutter completely
 
 ```cson
-
 'atom-workspace':
   'ctrl-g ctrl-g': 'toggle-gutter:gutter'
 ```
