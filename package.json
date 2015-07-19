@@ -1,0 +1,14 @@
+{
+  "name": "toggle-gutter",
+  "main": "./lib/main",
+  "version": "0.0.0",
+  "description": "Quickly toggle line numbers",
+  "keywords": [
+    "gutter"
+  ],
+  "repository": "https://github.com/MaximSokolov/toggle-gutter",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  }
+}

@@ -1,0 +1,33 @@
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Toggle Line Numbers'
+      'command': 'toggle-gutter:line-numbers'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Toggle Gutter'
+      'submenu': [
+        {
+          'label': 'Toggle Line Numbers'
+          'command': 'toggle-gutter:line-numbers'
+        }
+      ]
+    ]
+  },
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Toggle Gutter'
+      'submenu': [
+        {
+          'label': 'Toggle Gutter'
+          'command': 'toggle-gutter:gutter'
+        }
+      ]
+    ]
+  }
+]
