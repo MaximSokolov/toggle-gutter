@@ -1,33 +1,53 @@
 {CompositeDisposable} = require 'atom'
 
 module.exports = ToggleGutter =
-  isLineNumbersHidden: false
+  config:
+    showNumbers:
+      type: 'boolean'
+      default: false
+    showGutter:
+      type: 'boolean'
+      default: true
+
+  lineNumbersShowing: false
   lineNumbersDisposable: null
   gutterDisposable: null
 
-  activate: (state) ->
+  activate: ->
     @subscriptions = new CompositeDisposable
     @subscriptions.add atom.commands.add 'atom-workspace',
       'toggle-gutter:gutter': => @toggleGutter()
       'toggle-gutter:line-numbers': => @toggleLineNumbers()
 
-    unless atom.config.get('editor.showLineNumbers')
+    if atom.config.get('toggle-gutter.showGutter') isnt atom.config.get('editor.showLineNumbers')
+      atom.config.set('editor.showLineNumbers', atom.config.get('toggle-gutter.showGutter'))
+
+    @subscriptions.add atom.config.onDidChange 'editor.showLineNumbers', ({newValue}) =>
+      if newValue isnt @isGutterShowing()
+        @toggleGutter()
+
+    @subscriptions.add atom.config.onDidChange 'toggle-gutter.showGutter', ({newValue}) ->
+      if newValue isnt atom.config.get('editor.showLineNumbers')
+        atom.config.set('editor.showLineNumbers', newValue)
+
+    @subscriptions.add atom.config.onDidChange 'toggle-gutter.showNumbers', ({newValue}) =>
+      if newValue isnt @lineNumbersShowing
+        @toggleLineNumbers()
+
+    unless @isGutterShowing()
       @hideGutter()
-    else
-      @deserialize state
+
+    unless @isLineNumbersShowing()
+      @hideLineNumbers()
 
   deactivate: ->
     @subscriptions.dispose()
 
-  serialize: ->
-    return {@isLineNumbersHidden}
-
-  deserialize: (state) ->
-    if state.isLineNumbersHidden
-      @hideLineNumbers()
+  isGutterShowing: ->
+    atom.config.get('toggle-gutter.showGutter')
 
   toggleGutter: ->
-    if atom.config.get('editor.showLineNumbers')
+    if @isGutterShowing()
       @hideGutter()
     else
       @showGutter()
@@ -37,7 +57,7 @@ module.exports = ToggleGutter =
       atom.views.getView(editor).classList.add('hidden-gutter')
     @subscriptions.add @gutterDisposable
 
-    atom.config.set('editor.showLineNumbers', false)
+    atom.config.set('toggle-gutter.showGutter', false)
 
   showGutter: ->
     if @gutterDisposable
@@ -47,10 +67,13 @@ module.exports = ToggleGutter =
     for editor in atom.workspace.getTextEditors()
       atom.views.getView(editor).classList.remove('hidden-gutter')
 
-    atom.config.set('editor.showLineNumbers', true)
+    atom.config.set('toggle-gutter.showGutter', true)
+
+  isLineNumbersShowing: ->
+    @lineNumbersShowing
 
   toggleLineNumbers: ->
-    unless @isLineNumbersHidden
+    if @isLineNumbersShowing()
       @hideLineNumbers()
     else
       @showLineNumbers()
@@ -60,7 +83,9 @@ module.exports = ToggleGutter =
       atom.views.getView(editor).classList.add('hidden-line-numbers')
 
     @subscriptions.add @lineNumbersDisposable
-    @isLineNumbersHidden = true
+
+    @lineNumbersShowing = false
+    atom.config.set('toggle-gutter.showNumbers', false)
 
   showLineNumbers: ->
     if @lineNumbersDisposable
@@ -70,4 +95,5 @@ module.exports = ToggleGutter =
     for editor in atom.workspace.getTextEditors()
       atom.views.getView(editor).classList.remove('hidden-line-numbers')
 
-    @isLineNumbersHidden = false
+    @lineNumbersShowing = true
+    atom.config.set('toggle-gutter.showNumbers', true)
