@@ -129,6 +129,21 @@ describe 'Toggle Gutter', ->
       HideGutter.hideLineNumbers()
       expect(HideGutter.isLineNumbersShowing()).toBe(false)
 
+  describe '::toggleLineNumbers()', ->
+    it 'hides line numbers', ->
+      spyOn(HideGutter, 'hideLineNumbers')
+
+      HideGutter.showLineNumbers()
+      HideGutter.toggleLineNumbers()
+      expect(HideGutter.hideLineNumbers).toHaveBeenCalled()
+
+    it 'shows line numbers', ->
+      spyOn(HideGutter, 'showLineNumbers')
+
+      HideGutter.hideLineNumbers()
+      HideGutter.toggleLineNumbers()
+      expect(HideGutter.showLineNumbers).toHaveBeenCalled()
+
   describe '::hideLineNumbers()', ->
     it 'adds "hidden-line-numbers" class', ->
       waitsForPromise ->
