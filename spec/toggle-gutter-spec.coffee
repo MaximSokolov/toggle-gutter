@@ -58,6 +58,21 @@ describe 'Toggle Gutter', ->
       HideGutter.hideGutter()
       expect(HideGutter.isGutterShowing()).toBe(false)
 
+  describe '::toggleGutter()', ->
+    it 'hides gutter', ->
+      spyOn(HideGutter, 'hideGutter')
+
+      HideGutter.showGutter()
+      HideGutter.toggleGutter()
+      expect(HideGutter.hideGutter).toHaveBeenCalled()
+
+    it 'shows gutter', ->
+      spyOn(HideGutter, 'showGutter')
+
+      HideGutter.hideGutter()
+      HideGutter.toggleGutter()
+      expect(HideGutter.showGutter).toHaveBeenCalled()
+
   describe '::hideGutter()', ->
     beforeEach ->
       HideGutter.showGutter()
