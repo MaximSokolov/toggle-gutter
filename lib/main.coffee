@@ -11,7 +11,7 @@ module.exports = ToggleGutter =
       'toggle-gutter:gutter': => @toggleGutter()
       'toggle-gutter:line-numbers': => @toggleLineNumbers()
 
-    unless atom.config.get('editor.showLineNumbers')
+    unless @isGutterShowing()
       @hideGutter()
     else
       @deserialize state
@@ -26,8 +26,11 @@ module.exports = ToggleGutter =
     if state.isLineNumbersHidden
       @hideLineNumbers()
 
+  isGutterShowing: ->
+    atom.config.get('editor.showLineNumbers')
+
   toggleGutter: ->
-    if atom.config.get('editor.showLineNumbers')
+    if @isGutterShowing()
       @hideGutter()
     else
       @showGutter()

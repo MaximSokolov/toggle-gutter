@@ -49,12 +49,22 @@ describe 'Toggle Gutter', ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-line-numbers')).toBeFalsy()
 
+  describe '::isGutterShowing()', ->
+    it 'mast be true', ->
+      HideGutter.showGutter()
+      expect(HideGutter.isGutterShowing()).toBe(true)
+
+    it 'mast be false', ->
+      HideGutter.hideGutter()
+      expect(HideGutter.isGutterShowing()).toBe(false)
+
   describe '::hideGutter()', ->
     beforeEach ->
+      HideGutter.showGutter()
       HideGutter.hideGutter()
 
-    it 'set showLineNumbers to false', ->
-      expect(atom.config.get('editor.showLineNumbers')).toBe(false)
+    it 'saves visibility state', ->
+      expect(HideGutter.isGutterShowing()).toBe(false)
 
     it 'adds hidden-gutter class', ->
       waitsForPromise ->
@@ -90,8 +100,10 @@ describe 'Toggle Gutter', ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-gutter')).toBe(false)
 
-    it 'set showLineNumbers to true', ->
-      expect(atom.config.get('editor.showLineNumbers')).toBe(true)
+    it 'saves visibility state', ->
+      HideGutter.hideGutter()
+      HideGutter.showGutter()
+      expect(HideGutter.isGutterShowing()).toBe(true)
 
   describe '::hideLineNumbers()', ->
     it 'adds "hidden-line-numbers" class', ->
