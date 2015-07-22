@@ -52,8 +52,11 @@ module.exports = ToggleGutter =
 
     atom.config.set('editor.showLineNumbers', true)
 
+  isLineNumbersShowing: ->
+    not @isLineNumbersHidden
+
   toggleLineNumbers: ->
-    unless @isLineNumbersHidden
+    if @isLineNumbersShowing()
       @hideLineNumbers()
     else
       @showLineNumbers()
