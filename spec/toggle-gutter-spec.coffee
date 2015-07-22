@@ -3,7 +3,7 @@ HideGutter = require '../lib/main'
 hasCommand = (element, commandName) ->
   return true for command in atom.commands.findCommands(target: element) when command.name is commandName
 
-describe "Toggle Gutter", ->
+describe 'Toggle Gutter', ->
   [editor, workspaceElement, editorElement] = []
 
   beforeEach ->
@@ -12,8 +12,8 @@ describe "Toggle Gutter", ->
     waitsForPromise ->
       atom.packages.activatePackage('toggle-gutter')
 
-  describe "activate", ->
-    it "creates the commands", ->
+  describe 'activate', ->
+    it 'creates the commands', ->
       expect(hasCommand(workspaceElement, 'toggle-gutter:gutter')).toBeTruthy()
       expect(hasCommand(workspaceElement, 'toggle-gutter:line-numbers')).toBeTruthy()
 
@@ -23,7 +23,7 @@ describe "Toggle Gutter", ->
       expect(hasCommand(workspaceElement, 'toggle-gutter:gutter')).toBeFalsy()
       expect(hasCommand(workspaceElement, 'toggle-gutter:line-numbers')).toBeFalsy()
 
-    it "doesn't add 'hidden-gutter' class to new files", ->
+    it 'does not add "hidden-gutter" class to new files', ->
       runs ->
         HideGutter.hideGutter()
         atom.packages.deactivatePackage('toggle-gutter')
@@ -36,7 +36,7 @@ describe "Toggle Gutter", ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-gutter')).toBeFalsy()
 
-    it "doesn't add 'hidden-line-numbers' class to new files", ->
+    it 'does not add "hidden-line-numbers" class to new files', ->
       runs ->
         HideGutter.hideLineNumbers()
         atom.packages.deactivatePackage('toggle-gutter')
@@ -53,10 +53,10 @@ describe "Toggle Gutter", ->
     beforeEach ->
       HideGutter.hideGutter()
 
-    it "set showLineNumbers to false", ->
+    it 'set showLineNumbers to false', ->
       expect(atom.config.get('editor.showLineNumbers')).toBe(false)
 
-    it "adds hidden-gutter class", ->
+    it 'adds hidden-gutter class', ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
 
@@ -66,7 +66,7 @@ describe "Toggle Gutter", ->
         expect(editorElement.classList.contains('hidden-gutter')).toBe(true)
 
   describe 'show gutter', ->
-    it "removes 'hidden-gutter' class", ->
+    it 'removes "hidden-gutter" class', ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
 
@@ -77,7 +77,7 @@ describe "Toggle Gutter", ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-gutter')).toBe(false)
 
-    it "doesn't add 'hidden-gutter' class to new files", ->
+    it 'does not add "hidden-gutter" class to new files', ->
       runs ->
         HideGutter.hideGutter()
         HideGutter.showGutter()
@@ -90,11 +90,11 @@ describe "Toggle Gutter", ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-gutter')).toBe(false)
 
-    it "set showLineNumbers to true", ->
+    it 'set showLineNumbers to true', ->
       expect(atom.config.get('editor.showLineNumbers')).toBe(true)
 
   describe 'hide line-numbers', ->
-    it "adds 'hidden-line-numbers' class", ->
+    it 'adds "hidden-line-numbers" class', ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
       runs ->
@@ -104,7 +104,7 @@ describe "Toggle Gutter", ->
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(true)
 
   describe 'show line-numbers', ->
-    it "removes hidden-gutter class", ->
+    it 'removes hidden-gutter class', ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
 
@@ -115,7 +115,7 @@ describe "Toggle Gutter", ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(false)
 
-    it "does't add class hidden-gutter in new files", ->
+    it 'does not add class hidden-gutter in new files', ->
       runs ->
         HideGutter.hideLineNumbers()
         HideGutter.showLineNumbers()
