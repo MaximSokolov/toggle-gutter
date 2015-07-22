@@ -4,7 +4,7 @@ hasCommand = (element, commandName) ->
   return true for command in atom.commands.findCommands(target: element) when command.name is commandName
 
 describe "Toggle Gutter", ->
-  [editor, workspaceElement, editorElement, activationPromise] = []
+  [editor, workspaceElement, editorElement] = []
 
   beforeEach ->
     workspaceElement = atom.views.getView(atom.workspace)
