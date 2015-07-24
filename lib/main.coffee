@@ -34,6 +34,7 @@ module.exports = ToggleGutter =
       if newValue isnt @lineNumbersShowing
         @toggleLineNumbers()
 
+    @lineNumbersShowing =  atom.config.get('toggle-gutter.showNumbers')
     unless @isGutterShowing()
       @hideGutter()
 
