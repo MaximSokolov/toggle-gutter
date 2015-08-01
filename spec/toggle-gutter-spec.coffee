@@ -171,7 +171,7 @@ describe 'Toggle Gutter', ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(false)
 
-    it 'does not add class hidden-gutter in new files', ->
+    it 'does not add class hidden-gutter to new files', ->
       runs ->
         HideGutter.hideLineNumbers()
         HideGutter.showLineNumbers()
