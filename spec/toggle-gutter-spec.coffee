@@ -148,6 +148,7 @@ describe 'Toggle Gutter', ->
     it 'adds "hidden-line-numbers" class', ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
+
       runs ->
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
