@@ -19,6 +19,8 @@ module.exports =
 
     @handleConfigChanges()
 
+    # NOTE: Now `editor.showLineNumbers` toggles Gutter's visibility
+    # See https://github.com/atom/atom/issues/3466 for details
     atom.config.set('editor.showLineNumbers', atom.config.get('toggle-gutter.showGutter'))
 
     unless atom.config.get('toggle-gutter.showGutter')
