@@ -147,7 +147,6 @@ describe "Toggle Gutter", ->
         atom.workspace.open('test.txt')
 
       runs ->
-        console.log toggleGutter.isLineNumbersShowing()
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(false)
