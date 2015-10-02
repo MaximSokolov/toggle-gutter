@@ -14,7 +14,7 @@ apm install toggle-gutter
 
 #### Toggle Gutter: Line numbers
 
-Probably you want to disable __line number__ but keep __gutter__ because it shows much useful information like git diff, folding marks etc.
+Probably you want to disable line numbers but keep __gutters__ because it shows much useful information like git diff, folding marks etc.
 
 ```cson
 'atom-workspace':
@@ -23,7 +23,7 @@ Probably you want to disable __line number__ but keep __gutter__ because it show
 
 #### Toggle Gutter: Gutter
 
-Though you can disable gutter completely
+However you can disable all gutters completely.
 
 ```cson
 'atom-workspace':

@@ -10,37 +10,37 @@ describe "Toggle Gutter", ->
     waitsForPromise ->
       atom.packages.activatePackage('toggle-gutter')
 
-  describe "::isGutterShowing()", ->
+  describe "::isGuttersShowing()", ->
     it "returns 'true' when gutters are shown", ->
-      toggleGutter.showGutter()
-      expect(toggleGutter.isGutterShowing()).toBe(true)
+      toggleGutter.showGutters()
+      expect(toggleGutter.isGuttersShowing()).toBe(true)
 
     it "returns 'false' when gutters are hidden", ->
-      toggleGutter.toggleGutter()
-      expect(toggleGutter.isGutterShowing()).toBe(false)
+      toggleGutter.toggleGutters()
+      expect(toggleGutter.isGuttersShowing()).toBe(false)
 
-  describe "::toggleGutter()", ->
+  describe "::toggleGutters()", ->
     it "hides gutter", ->
-      spyOn(toggleGutter, 'toggleGutter')
+      spyOn(toggleGutter, 'toggleGutters')
 
-      toggleGutter.showGutter()
-      toggleGutter.toggleGutter()
-      expect(toggleGutter.toggleGutter).toHaveBeenCalled()
+      toggleGutter.showGutters()
+      toggleGutter.toggleGutters()
+      expect(toggleGutter.toggleGutters).toHaveBeenCalled()
 
     it "shows gutter", ->
-      spyOn(toggleGutter, 'showGutter')
+      spyOn(toggleGutter, 'showGutters')
 
-      toggleGutter.toggleGutter()
-      toggleGutter.toggleGutter()
-      expect(toggleGutter.showGutter).toHaveBeenCalled()
+      toggleGutter.toggleGutters()
+      toggleGutter.toggleGutters()
+      expect(toggleGutter.showGutters).toHaveBeenCalled()
 
-  describe "::toggleGutter()", ->
+  describe "::toggleGutters()", ->
     beforeEach ->
-      toggleGutter.showGutter()
-      toggleGutter.toggleGutter()
+      toggleGutter.showGutters()
+      toggleGutter.toggleGutters()
 
     it "saves visibility state", ->
-      expect(toggleGutter.isGutterShowing()).toBe(false)
+      expect(toggleGutter.isGuttersShowing()).toBe(false)
 
     it "adds hidden-gutter class", ->
       waitsForPromise ->
@@ -49,24 +49,24 @@ describe "Toggle Gutter", ->
       runs ->
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
-        expect(editorElement.classList.contains('hidden-gutter')).toBe(true)
+        expect(editorElement.classList.contains('hidden-gutters')).toBe(true)
 
-  describe "::showGutter()", ->
+  describe "::showGutters()", ->
     it "shows hidden gutters", ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
 
       runs ->
-        toggleGutter.toggleGutter()
-        toggleGutter.showGutter()
+        toggleGutter.toggleGutters()
+        toggleGutter.showGutters()
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
-        expect(editorElement.classList.contains('hidden-gutter')).toBe(false)
+        expect(editorElement.classList.contains('hidden-gutters')).toBe(false)
 
     it "doesn't hide gutters in the new files", ->
       runs ->
-        toggleGutter.toggleGutter()
-        toggleGutter.showGutter()
+        toggleGutter.toggleGutters()
+        toggleGutter.showGutters()
 
       waitsForPromise ->
         atom.workspace.open("test.txt")
@@ -77,9 +77,9 @@ describe "Toggle Gutter", ->
         expect(editorElement.classList.contains('hidden-gutter')).toBe(false)
 
     it "saves visibility state", ->
-      toggleGutter.toggleGutter()
-      toggleGutter.showGutter()
-      expect(toggleGutter.isGutterShowing()).toBe(true)
+      toggleGutter.toggleGutters()
+      toggleGutter.showGutters()
+      expect(toggleGutter.isGuttersShowing()).toBe(true)
 
   describe "::isLineNumbersShowing()", ->
     it "returns 'true' when line-numbers are shown", ->

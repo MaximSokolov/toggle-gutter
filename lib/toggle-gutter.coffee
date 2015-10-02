@@ -3,6 +3,7 @@
 module.exports =
 class ToggleGutter
   lineNumbersShowing: false
+  guttersShowing: true
   lineNumbersDisposable: null
   gutterDisposable: null
 
@@ -12,31 +13,33 @@ class ToggleGutter
   destroy: ->
     @subscriptions.dispose()
 
-  isGutterShowing: ->
-    atom.config.get('toggle-gutter.showGutter')
+  isGuttersShowing: ->
+    @guttersShowing
 
-  toggleGutter: ->
-    if @isGutterShowing()
-      @hideGutter()
+  toggleGutters: ->
+    if @isGuttersShowing()
+      @hideGutters()
     else
-      @showGutter()
+      @showGutters()
 
-  hideGutter: ->
+  hideGutters: ->
     @gutterDisposable = atom.workspace.observeTextEditors (editor) ->
-      atom.views.getView(editor).classList.add('hidden-gutter')
+      atom.views.getView(editor).classList.add('hidden-gutters')
     @subscriptions.add @gutterDisposable
 
-    atom.config.set('toggle-gutter.showGutter', false)
+    @guttersShowing = false
+    atom.config.set('toggle-gutter.showGutters', false)
 
-  showGutter: ->
+  showGutters: ->
     if @gutterDisposable
       @subscriptions.remove @gutterDisposable
       @gutterDisposable.dispose()
 
     for editor in atom.workspace.getTextEditors()
-      atom.views.getView(editor).classList.remove('hidden-gutter')
+      atom.views.getView(editor).classList.remove('hidden-gutters')
 
-    atom.config.set('toggle-gutter.showGutter', true)
+    @guttersShowing = true
+    atom.config.set('toggle-gutter.showGutters', true)
 
   isLineNumbersShowing: ->
     @lineNumbersShowing
