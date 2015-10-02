@@ -11,11 +11,11 @@ describe "Toggle Gutter", ->
       atom.packages.activatePackage('toggle-gutter')
 
   describe "::isGutterShowing()", ->
-    it "mast be true", ->
+    it "returns 'true' when gutters are shown", ->
       toggleGutter.showGutter()
       expect(toggleGutter.isGutterShowing()).toBe(true)
 
-    it "mast be false", ->
+    it "returns 'false' when gutters are hidden", ->
       toggleGutter.toggleGutter()
       expect(toggleGutter.isGutterShowing()).toBe(false)
 
@@ -52,7 +52,7 @@ describe "Toggle Gutter", ->
         expect(editorElement.classList.contains('hidden-gutter')).toBe(true)
 
   describe "::showGutter()", ->
-    it "removes 'hidden-gutter' class", ->
+    it "shows hidden gutters", ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
 
@@ -63,7 +63,7 @@ describe "Toggle Gutter", ->
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-gutter')).toBe(false)
 
-    it "doesn't add 'hidden-gutter' class to new files", ->
+    it "doesn't hide gutters in the new files", ->
       runs ->
         toggleGutter.toggleGutter()
         toggleGutter.showGutter()
@@ -82,11 +82,11 @@ describe "Toggle Gutter", ->
       expect(toggleGutter.isGutterShowing()).toBe(true)
 
   describe "::isLineNumbersShowing()", ->
-    it "mast be true", ->
+    it "returns 'true' when line-numbers are shown", ->
       toggleGutter.showLineNumbers()
       expect(toggleGutter.isLineNumbersShowing()).toBe(true)
 
-    it "mast be false", ->
+    it "returns 'false' when line-numbers are hidden", ->
       toggleGutter.hideLineNumbers()
       expect(toggleGutter.isLineNumbersShowing()).toBe(false)
 
@@ -122,7 +122,7 @@ describe "Toggle Gutter", ->
       expect(toggleGutter.isLineNumbersShowing()).toBe(false)
 
   describe "::showLineNumbers()", ->
-    it "removes 'hidden-gutter' class", ->
+    it "shows line numbers", ->
       waitsForPromise ->
         atom.workspace.open('test.txt')
 
@@ -138,7 +138,7 @@ describe "Toggle Gutter", ->
       toggleGutter.showLineNumbers()
       expect(toggleGutter.isLineNumbersShowing()).toBe(true)
 
-    it "doesn't add 'hidden-gutter' class to new files", ->
+    it "doesn't hide line numbers in the new files", ->
       runs ->
         toggleGutter.hideLineNumbers()
         toggleGutter.showLineNumbers()
