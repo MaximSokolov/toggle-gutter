@@ -21,14 +21,15 @@ module.exports =
 
     @handleConfigChanges()
 
-    # NOTE: Now `editor.showLineNumbers` toggles Gutter's visibility
-    # See https://github.com/atom/atom/issues/3466 for details
-    atom.config.set('editor.showLineNumbers', atom.config.get('toggle-gutter.showGutters'))
-
     unless atom.config.get('toggle-gutter.showGutters')
       @toggleGutter.hideGutters()
 
-    unless atom.config.get('toggle-gutter.showNumbers')
+    # HACK: Now `editor.showLineNumbers` hides git diff, folding marks, etc.
+    # See https://github.com/atom/atom/issues/3466 for details
+    unless atom.config.get('editor.showLineNumbers')
+      atom.config.set('editor.showLineNumbers', true)
+      @toggleGutter.hideLineNumbers()
+    else unless atom.config.get('toggle-gutter.showNumbers')
       @toggleGutter.hideLineNumbers()
 
   deactivate: ->
@@ -37,12 +38,13 @@ module.exports =
 
   handleConfigChanges: ->
     @subscriptions.add atom.config.onDidChange 'editor.showLineNumbers', ({newValue}) =>
+      if newValue is false
+        atom.config.set('editor.showLineNumbers', true)
+        @toggleGutter.hideLineNumbers()
+
+    @subscriptions.add atom.config.onDidChange 'toggle-gutter.showGutters', ({newValue}) =>
       if newValue isnt @toggleGutter.isGuttersShowing()
         @toggleGutter.toggleGutters()
-
-    @subscriptions.add atom.config.onDidChange 'toggle-gutter.showGutters', ({newValue}) ->
-      if newValue isnt atom.config.get('editor.showLineNumbers')
-        atom.config.set('editor.showLineNumbers', newValue)
 
     @subscriptions.add atom.config.onDidChange 'toggle-gutter.showNumbers', ({newValue}) =>
       if newValue isnt @toggleGutter.lineNumbersShowing
