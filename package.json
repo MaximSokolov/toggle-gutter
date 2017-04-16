@@ -10,5 +10,12 @@
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint && apm test"
   }
 }

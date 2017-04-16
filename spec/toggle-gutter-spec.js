@@ -1,154 +1,181 @@
-ToggleGutter = require '../lib/toggle-gutter'
+'use babel'
 
-describe "Toggle Gutter", ->
-  [editor, toggleGutter, workspaceElement, editorElement] = []
+import ToggleGutter from '../lib/toggle-gutter'
 
-  beforeEach ->
-    workspaceElement = atom.views.getView(atom.workspace)
+describe("Toggle Gutter", function () {
+  let editor = null
+  let toggleGutter = null
+  let editorElement = null
+
+  beforeEach(function () {
     toggleGutter = new ToggleGutter
 
-    waitsForPromise ->
-      atom.packages.activatePackage('toggle-gutter')
+    waitsForPromise(() => atom.packages.activatePackage('toggle-gutter'))
+  })
 
-  describe "::isGuttersShowing()", ->
-    it "returns 'true' when gutters are shown", ->
+  describe("::isGuttersShowing()", function () {
+    it("returns 'true' when gutters are shown", function () {
       toggleGutter.showGutters()
       expect(toggleGutter.isGuttersShowing()).toBe(true)
+    })
 
-    it "returns 'false' when gutters are hidden", ->
+    it("returns 'false' when gutters are hidden", function () {
       toggleGutter.hideGutters()
       expect(toggleGutter.isGuttersShowing()).toBe(false)
+    })
+  })
 
-  describe "::toggleGutters()", ->
-    it "hides gutter", ->
+  describe("::toggleGutters()", function () {
+    it("hides gutter", function () {
       spyOn(toggleGutter, 'hideGutters')
 
       toggleGutter.showGutters()
       toggleGutter.toggleGutters()
       expect(toggleGutter.hideGutters).toHaveBeenCalled()
+    })
 
-    it "shows gutter", ->
+    it("shows gutter", function () {
       spyOn(toggleGutter, 'showGutters')
 
       toggleGutter.hideGutters()
       toggleGutter.toggleGutters()
       expect(toggleGutter.showGutters).toHaveBeenCalled()
+    })
 
-    it "saves visibility state", ->
+    it("saves visibility state", function () {
       toggleGutter.showGutters()
       toggleGutter.toggleGutters()
       expect(toggleGutter.isGuttersShowing()).toBe(false)
+    })
 
-    it "adds `hidden-gutter` class", ->
-      waitsForPromise ->
-        atom.workspace.open('test.txt')
+    it("adds `hidden-gutter` class", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
 
-      runs ->
+      runs(function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
 
         toggleGutter.showGutters()
         toggleGutter.toggleGutters()
         expect(editorElement.classList.contains('hidden-gutters')).toBe(true)
+      })
+    })
+  })
 
-  describe "::showGutters()", ->
-    it "shows hidden gutters", ->
-      waitsForPromise ->
-        atom.workspace.open('test.txt')
+  describe("::showGutters()", function () {
+    it("shows hidden gutters", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
 
-      runs ->
+      runs(function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
 
         toggleGutter.hideGutters()
         toggleGutter.showGutters()
         expect(editorElement.classList.contains('hidden-gutters')).toBe(false)
+      })
+    })
 
-    it "saves visibility state", ->
+    it("saves visibility state", function () {
       toggleGutter.hideGutters()
       toggleGutter.showGutters()
       expect(toggleGutter.isGuttersShowing()).toBe(true)
+    })
+  })
 
-  describe "::isLineNumbersShowing()", ->
-    it "returns 'true' when line-numbers are shown", ->
+  describe("::isLineNumbersShowing()", function () {
+    it("returns 'true' when line-numbers are shown", function () {
       toggleGutter.showLineNumbers()
       expect(toggleGutter.isLineNumbersShowing()).toBe(true)
+    })
 
-    it "returns 'false' when line-numbers are hidden", ->
+    it("returns 'false' when line-numbers are hidden", function () {
       toggleGutter.hideLineNumbers()
       expect(toggleGutter.isLineNumbersShowing()).toBe(false)
+    })
+  })
 
-  describe "::toggleLineNumbers()", ->
-    it "hides line numbers", ->
+  describe("::toggleLineNumbers()", function () {
+    it("hides line numbers", function () {
       spyOn(toggleGutter, 'hideLineNumbers')
 
       toggleGutter.showLineNumbers()
       toggleGutter.toggleLineNumbers()
       expect(toggleGutter.hideLineNumbers).toHaveBeenCalled()
+    })
 
-    it "shows line numbers", ->
+    it("shows line numbers", function () {
       spyOn(toggleGutter, 'showLineNumbers')
 
       toggleGutter.hideLineNumbers()
       toggleGutter.toggleLineNumbers()
       expect(toggleGutter.showLineNumbers).toHaveBeenCalled()
+    })
+  })
 
-  describe "::hideLineNumbers()", ->
-    it "adds `hidden-line-numbers` class", ->
-      waitsForPromise ->
-        atom.workspace.open('test.txt')
+  describe("::hideLineNumbers()", function () {
+    it("adds `hidden-line-numbers` class", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
 
-      runs ->
+      runs(function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
 
         toggleGutter.showLineNumbers()
         toggleGutter.hideLineNumbers()
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(true)
+      })
+    })
 
-    it "saves visibility state", ->
+    it("saves visibility state", function () {
       toggleGutter.showLineNumbers()
       toggleGutter.hideLineNumbers()
       expect(toggleGutter.isLineNumbersShowing()).toBe(false)
+    })
 
-    it "hides line numbers in the new files", ->
-      runs ->
-        toggleGutter.hideLineNumbers()
+    it("hides line numbers in the new files", function () {
+      runs(() => toggleGutter.hideLineNumbers())
 
-      waitsForPromise ->
-        atom.workspace.open('test.txt')
+      waitsForPromise(() => atom.workspace.open('test.txt'))
 
-      runs ->
+      runs(function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(true)
+      })
+    })
+  })
 
-  describe "::showLineNumbers()", ->
-    it "shows line numbers", ->
-      waitsForPromise ->
-        atom.workspace.open('test.txt')
+  describe("::showLineNumbers()", function () {
+    it("shows line numbers", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
 
-      runs ->
+      runs(function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
 
         toggleGutter.hideLineNumbers()
         toggleGutter.showLineNumbers()
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(false)
+      })
+    })
 
-    it "saves visibility state", ->
+    it("saves visibility state", function () {
       toggleGutter.hideLineNumbers()
       toggleGutter.showLineNumbers()
       expect(toggleGutter.isLineNumbersShowing()).toBe(true)
+    })
 
-    it "doesn't hide line numbers in the new files", ->
-      runs ->
-        toggleGutter.showLineNumbers()
+    it("doesn't hide line numbers in the new files", function () {
+      runs(() => toggleGutter.showLineNumbers())
 
-      waitsForPromise ->
-        atom.workspace.open('test.txt')
+      waitsForPromise(() => atom.workspace.open('test.txt'))
 
-      runs ->
+      runs(function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
         expect(editorElement.classList.contains('hidden-line-numbers')).toBe(false)
+      })
+    })
+  })
+})
