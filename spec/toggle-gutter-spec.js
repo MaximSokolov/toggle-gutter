@@ -13,6 +13,72 @@ describe("Toggle Gutter", function () {
     waitsForPromise(() => atom.packages.activatePackage('toggle-gutter'))
   })
 
+  describe("::isGutterShowing()", function () {
+    it("returns 'true' when the given gutter is shown", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
+
+      runs(function () {
+        let gutterName = 'test-gutter'
+        let editor = atom.workspace.getActiveTextEditor()
+        editor.addGutter({name: gutterName})
+
+        toggleGutter.showGutter(gutterName)
+        expect(toggleGutter.isGutterShowing(gutterName)).toBe(true)
+      })
+    })
+
+    it("returns 'false' when the gutter is hidden", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
+
+      runs(function () {
+        let gutterName = 'test-gutter'
+        let editor = atom.workspace.getActiveTextEditor()
+        editor.addGutter({name: gutterName})
+
+        toggleGutter.hideGutter(gutterName)
+        expect(toggleGutter.isGutterShowing(gutterName)).toBe(false)
+      })
+    })
+  })
+
+  describe("::toggleGutter()", function () {
+    it("it hides the given gutter", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
+
+      runs(function () {
+        let gutterName = 'test-gutter'
+        let editor = atom.workspace.getActiveTextEditor()
+        let gutter = editor.addGutter({name: gutterName})
+
+        toggleGutter.showGutter(gutterName)
+        expect(gutter.isVisible()).toBe(true)
+        toggleGutter.toggleGutter(gutterName)
+        expect(gutter.isVisible()).toBe(false)
+      })
+    })
+
+    it("it shows the given gutter", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
+
+      runs(function () {
+        let gutterName = 'test-gutter'
+        let editor = atom.workspace.getActiveTextEditor()
+        let gutter = editor.addGutter({name: gutterName})
+
+        toggleGutter.hideGutter(gutterName)
+        expect(gutter.isVisible()).toBe(false)
+        toggleGutter.toggleGutter(gutterName)
+        expect(gutter.isVisible()).toBe(true)
+      })
+    })
+
+    it("it does nothing when the given gutter doesn't exist", function () {
+      waitsForPromise(() => atom.workspace.open('test.txt'))
+
+      runs(() => expect(() => toggleGutter.toggleGutter('doesntExist')).not.toThrow())
+    })
+  })
+
   describe("::isGuttersShowing()", function () {
     it("returns 'true' when gutters are shown", function () {
       toggleGutter.showGutters()

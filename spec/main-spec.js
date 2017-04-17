@@ -19,6 +19,7 @@ describe("main", function () {
     it("creates the commands", function () {
       expect(hasCommand(workspaceElement, 'toggle-gutter:gutter')).toBeTruthy()
       expect(hasCommand(workspaceElement, 'toggle-gutter:line-numbers')).toBeTruthy()
+      expect(hasCommand(workspaceElement, 'toggle-gutter:linter-ui-default')).toBeTruthy()
     })
   )
 
@@ -27,6 +28,7 @@ describe("main", function () {
       atom.packages.deactivatePackage('toggle-gutter')
       expect(hasCommand(workspaceElement, 'toggle-gutter:gutter')).toBeFalsy()
       expect(hasCommand(workspaceElement, 'toggle-gutter:line-numbers')).toBeFalsy()
+      expect(hasCommand(workspaceElement, 'toggle-gutter:linter-ui-default')).toBeFalsy()
     })
   )
 })
