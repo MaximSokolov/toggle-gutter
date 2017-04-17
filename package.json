@@ -1,7 +1,7 @@
 {
   "name": "toggle-gutter",
   "main": "./lib/main",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Quickly toggle visability of Atom's gutters",
   "keywords": [
     "gutter"
