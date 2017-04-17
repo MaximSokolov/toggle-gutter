@@ -2,7 +2,7 @@
   "name": "toggle-gutter",
   "main": "./lib/main",
   "version": "0.2.2",
-  "description": "Quickly toggle line numbers",
+  "description": "Quickly toggle visability of Atom's gutters",
   "keywords": [
     "gutter"
   ],
