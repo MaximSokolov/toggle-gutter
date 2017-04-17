@@ -4,7 +4,7 @@
 
 Quickly toggle visability of Atom's gutters
 
-![toggle-gutter](https://github.com/MaximSokolov/toggle-gutter/blob/master/img/toggle-gutter.gif?raw=true)
+![toggle-gutter](https://cloud.githubusercontent.com/assets/2943616/25087483/f551e5b8-2377-11e7-92e1-fd62e93171c4.png)
 
 ## Installation
 
