@@ -13,7 +13,7 @@ describe("Toggle Gutter", function () {
     waitsForPromise(() => atom.packages.activatePackage('toggle-gutter'))
   })
 
-  describe("::isGutterShowing()", function () {
+  describe("::isGutterVisible()", function () {
     it("returns 'true' when the given gutter is shown", function () {
       waitsForPromise(() => atom.workspace.open('test.txt'))
 
@@ -23,7 +23,7 @@ describe("Toggle Gutter", function () {
         editor.addGutter({name: gutterName})
 
         toggleGutter.showGutter(gutterName)
-        expect(toggleGutter.isGutterShowing(gutterName)).toBe(true)
+        expect(toggleGutter.isGutterVisible(gutterName)).toBe(true)
       })
     })
 
@@ -36,7 +36,7 @@ describe("Toggle Gutter", function () {
         editor.addGutter({name: gutterName})
 
         toggleGutter.hideGutter(gutterName)
-        expect(toggleGutter.isGutterShowing(gutterName)).toBe(false)
+        expect(toggleGutter.isGutterVisible(gutterName)).toBe(false)
       })
     })
   })
@@ -79,39 +79,39 @@ describe("Toggle Gutter", function () {
     })
   })
 
-  describe("::isGuttersShowing()", function () {
+  describe("::isContainerVisible()", function () {
     it("returns 'true' when gutters are shown", function () {
-      toggleGutter.showGutters()
-      expect(toggleGutter.isGuttersShowing()).toBe(true)
+      toggleGutter.showContainer()
+      expect(toggleGutter.isContainerVisible()).toBe(true)
     })
 
     it("returns 'false' when gutters are hidden", function () {
-      toggleGutter.hideGutters()
-      expect(toggleGutter.isGuttersShowing()).toBe(false)
+      toggleGutter.hideContainer()
+      expect(toggleGutter.isContainerVisible()).toBe(false)
     })
   })
 
-  describe("::toggleGutters()", function () {
+  describe("::toggleContainer()", function () {
     it("hides gutter", function () {
-      spyOn(toggleGutter, 'hideGutters')
+      spyOn(toggleGutter, 'hideContainer')
 
-      toggleGutter.showGutters()
-      toggleGutter.toggleGutters()
-      expect(toggleGutter.hideGutters).toHaveBeenCalled()
+      toggleGutter.showContainer()
+      toggleGutter.toggleContainer()
+      expect(toggleGutter.hideContainer).toHaveBeenCalled()
     })
 
     it("shows gutter", function () {
-      spyOn(toggleGutter, 'showGutters')
+      spyOn(toggleGutter, 'showContainer')
 
-      toggleGutter.hideGutters()
-      toggleGutter.toggleGutters()
-      expect(toggleGutter.showGutters).toHaveBeenCalled()
+      toggleGutter.hideContainer()
+      toggleGutter.toggleContainer()
+      expect(toggleGutter.showContainer).toHaveBeenCalled()
     })
 
     it("saves visibility state", function () {
-      toggleGutter.showGutters()
-      toggleGutter.toggleGutters()
-      expect(toggleGutter.isGuttersShowing()).toBe(false)
+      toggleGutter.showContainer()
+      toggleGutter.toggleContainer()
+      expect(toggleGutter.isContainerVisible()).toBe(false)
     })
 
     it("adds `hidden-gutter` class", function () {
@@ -121,14 +121,14 @@ describe("Toggle Gutter", function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
 
-        toggleGutter.showGutters()
-        toggleGutter.toggleGutters()
+        toggleGutter.showContainer()
+        toggleGutter.toggleContainer()
         expect(editorElement.classList.contains('hidden-gutters')).toBe(true)
       })
     })
   })
 
-  describe("::showGutters()", function () {
+  describe("::showContainer()", function () {
     it("shows hidden gutters", function () {
       waitsForPromise(() => atom.workspace.open('test.txt'))
 
@@ -136,28 +136,28 @@ describe("Toggle Gutter", function () {
         editor = atom.workspace.getActiveTextEditor()
         editorElement = atom.views.getView(editor)
 
-        toggleGutter.hideGutters()
-        toggleGutter.showGutters()
+        toggleGutter.hideContainer()
+        toggleGutter.showContainer()
         expect(editorElement.classList.contains('hidden-gutters')).toBe(false)
       })
     })
 
     it("saves visibility state", function () {
-      toggleGutter.hideGutters()
-      toggleGutter.showGutters()
-      expect(toggleGutter.isGuttersShowing()).toBe(true)
+      toggleGutter.hideContainer()
+      toggleGutter.showContainer()
+      expect(toggleGutter.isContainerVisible()).toBe(true)
     })
   })
 
-  describe("::isLineNumbersShowing()", function () {
+  describe("::areLineNumbersVisible()", function () {
     it("returns 'true' when line-numbers are shown", function () {
       toggleGutter.showLineNumbers()
-      expect(toggleGutter.isLineNumbersShowing()).toBe(true)
+      expect(toggleGutter.areLineNumbersVisible()).toBe(true)
     })
 
     it("returns 'false' when line-numbers are hidden", function () {
       toggleGutter.hideLineNumbers()
-      expect(toggleGutter.isLineNumbersShowing()).toBe(false)
+      expect(toggleGutter.areLineNumbersVisible()).toBe(false)
     })
   })
 
@@ -196,7 +196,7 @@ describe("Toggle Gutter", function () {
     it("saves visibility state", function () {
       toggleGutter.showLineNumbers()
       toggleGutter.hideLineNumbers()
-      expect(toggleGutter.isLineNumbersShowing()).toBe(false)
+      expect(toggleGutter.areLineNumbersVisible()).toBe(false)
     })
 
     it("hides line numbers in the new files", function () {
@@ -229,7 +229,7 @@ describe("Toggle Gutter", function () {
     it("saves visibility state", function () {
       toggleGutter.hideLineNumbers()
       toggleGutter.showLineNumbers()
-      expect(toggleGutter.isLineNumbersShowing()).toBe(true)
+      expect(toggleGutter.areLineNumbersVisible()).toBe(true)
     })
 
     it("doesn't hide line numbers in the new files", function () {
